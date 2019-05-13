@@ -24,6 +24,7 @@ public interface IScheduleDao {
 	public boolean saveOrUpdateSchedule(Schedule schedule);
 	public Long countSchedule(String hql,List param);
 	public Schedule findScheduleById(Integer id);
+	public List find(String hql);
 	
 
 }

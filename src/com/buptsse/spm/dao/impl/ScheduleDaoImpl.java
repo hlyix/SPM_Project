@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import com.buptsse.spm.dao.IScheduleDao;
@@ -106,6 +107,12 @@ public class ScheduleDaoImpl extends BaseDAOImpl<Schedule> implements IScheduleD
 		// TODO Auto-generated method stub
 		return super.get(Schedule.class, id);
 		
+	}
+	
+	public List find(String hql) {
+		SQLQuery sqlQuery = super.getSessionFactory().getCurrentSession().createSQLQuery(hql);
+		List list = sqlQuery.list();
+		return list;
 	}
 
 }

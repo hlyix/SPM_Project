@@ -1,6 +1,7 @@
 package com.buptsse.spm.action;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -16,8 +17,10 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.buptsse.spm.domain.Code;
 import com.buptsse.spm.domain.Course;
+import com.buptsse.spm.domain.Schedule;
 import com.buptsse.spm.domain.User;
 import com.buptsse.spm.service.ICodeService;
+import com.buptsse.spm.service.IScheduleService;
 import com.buptsse.spm.service.ISelectCourseService;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -43,12 +46,20 @@ public class CourseAction extends ActionSupport{
 	protected String syear="";
 	
 	private String operateType;	
+	
+	public double vres = 0;
+	public double examRes = 0;
+	public double onlineRes = 0;
+	public double finalGrade = 0;
 
 	@Resource
 	private ISelectCourseService selectCourseService;
 	
 	@Resource
 	private ICodeService codeService;
+
+	@Resource
+	private IScheduleService scheduleService;
 	
 	 /** 
 	  * 分页查询所有课程列表
@@ -192,6 +203,36 @@ public class CourseAction extends ActionSupport{
 		}		
 		return null;
 	}	
+	
+	
+	public String getScore() {
+		
+
+		User user = (User)ServletActionContext.getRequest().getSession().getAttribute("user");
+		//视频分数
+		vres = scheduleService.countVideoGrade(user.getId());
+		//课程考试和平时成绩最终分数
+		examRes = scheduleService.countExamGrade(user.getId());
+
+		//计算在线时间分数
+		double maxTime,minTime,averTime,userTime;
+		List<Double> Onlinetimes = scheduleService.countMaxMinAverTimeGrade();
+		maxTime = Onlinetimes.get(0);
+		minTime = Onlinetimes.get(1);
+		averTime = Onlinetimes.get(2);
+		
+		userTime = scheduleService.getOnlineTime(user.getId());
+		if(userTime-averTime>=0) 
+			onlineRes = (100-70)*(userTime)/(maxTime-averTime);
+		
+		else
+			onlineRes = (70-50)*(userTime)/(averTime- minTime);
+		
+		finalGrade = 0.3*vres+0.3*examRes+0.4*onlineRes;
+		
+		return "success";
+		
+	}
 	
 	
 

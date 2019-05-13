@@ -1,5 +1,6 @@
 package com.buptsse.spm.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.buptsse.spm.dao.IScheduleDao;
+import com.buptsse.spm.domain.Course;
 import com.buptsse.spm.domain.Schedule;
 import com.buptsse.spm.service.IScheduleService;
 
@@ -98,6 +100,7 @@ public class ScheduleServiceImpl implements IScheduleService{
 	
 	
 	
+	
 	public IScheduleDao getiScheduleDao() {
 		return iScheduleDao;
 	}
@@ -105,6 +108,60 @@ public class ScheduleServiceImpl implements IScheduleService{
 	public void setiScheduleDao(IScheduleDao iScheduleDao) {
 		this.iScheduleDao = iScheduleDao;
 	}
+	
+	
+	public double countVideoGrade(String userId) {
+		String hql = "SELECT sum(percent)/count(*) FROM schedule where userId ="+userId;
+
+		System.out.println(hql);
+		List res = iScheduleDao.find(hql);
+		double a = ((BigDecimal) (res.get(0))).doubleValue();
+		return a;
+	}
+
+	@Override
+	public double countExamGrade(String userId) {
+		String hql = "select totalGrade from course where studentId ="+userId;
+
+		System.out.println(hql);
+		List res = iScheduleDao.find(hql);
+		double a = ((BigDecimal) (res.get(0))).doubleValue();
+		return a;
+	}
+
+	@Override
+	public List<Double> countMaxMinAverTimeGrade() {
+		String hqlmax = "select Max(videoTime) from user";
+		String hqlmin = "select Min(videoTime) from user";
+		String hqlaver = "select AVG(videoTime) from user";
+		System.out.println(hqlmax);
+		System.out.println(hqlmin);
+		System.out.println(hqlaver);
+		List maxres = iScheduleDao.find(hqlmax);
+		List minres = iScheduleDao.find(hqlmin);
+		List averres = iScheduleDao.find(hqlaver);
+		double max = ((Integer) maxres.get(0)).doubleValue();
+		double min = ((Integer) minres.get(0)).doubleValue();
+		double aver = ((BigDecimal) averres.get(0)).doubleValue();
+		List<Double> res = new ArrayList();
+		res.add(max);
+		res.add(min);
+		res.add(aver);
+		return res;
+	}
+	
+	@Override
+	public double getOnlineTime(String userId) {
+		String hql = "select videoTime from user where userId ="+userId;
+		System.out.println(hql);
+		List res = iScheduleDao.find(hql);
+		double a = ((Integer) res.get(0)).doubleValue();
+		return a;
+		
+	}
+	
+	
+	;
 
 
 

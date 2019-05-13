@@ -25,4 +25,8 @@ public interface IScheduleService {
 	public boolean saveOrUpdate(Schedule schedule);
 	public List<Schedule> findScheduleByUserIdAndStepOrder(Integer stepOrder,String userId);
 	public List<Schedule> findScheduleByUserIdAndChapterId(Integer chapterId,String userId);
+	public double countVideoGrade(String userId);
+	public double countExamGrade(String userId);
+	public List<Double> countMaxMinAverTimeGrade();
+	public double getOnlineTime(String userId);
 }

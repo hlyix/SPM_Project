@@ -78,6 +78,12 @@
 			<result name="success">jsp/course/notifySuccess.jsp</result>
 			<result name="error">error/error.jsp</result>
 		</action>
+		
+		<!-- 查询学生成绩 -->
+		<action name="getScoreN" method="getScore" class="courseAction">
+			<result name="success">jsp/course/scoreQueryList.jsp</result>
+			<result name="error">error/error.jsp</result>
+		</action>	
 	
 	    <!-- 上传学生成绩 -->
 		<action name="uploadScoreFile" method="uploadScoreFile" class="uploadAction">

@@ -1,12 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
  		<!-- ECharts单文件引入 -->
 		<script src="${ctx}/common/dist/echarts.js"></script>
   </head>
-  
+
   <script type="text/javascript">
   
   function clearForm(){
@@ -310,6 +312,16 @@
 	<h1 style="font-size: 28px;color: #00a1f1;border-bottom: 1px solid #b6d9e8;line-height: 50px;word-break:break-all;">
 	    成绩查询
    </h1>  
+   
+     <table border="1" >
+    <tr >
+      <td>视频成绩:<fmt:formatNumber type="number" value="${vres}" pattern="#.##"/><td>
+      <td>上课与考试成绩:<fmt:formatNumber type="number" value="${examRes}" pattern="#.##"/><td>
+      <td>在线时间成绩:<fmt:formatNumber type="number" value="${onlineRes}" pattern="#.##"/><td>
+      <td>最终成绩:<fmt:formatNumber type="number" value="${finalGrade}" pattern="#.##"/><td>
+    </tr>
+  <table>
+  
  <c:if test="${session.user.position=='1' }">
  	您作为管理员，无该功能权限！
  </c:if> 

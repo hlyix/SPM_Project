@@ -215,7 +215,7 @@ body {
 				<!-- 	<a href="../score/2012score.html" target="right">成绩查询</a>
 					<a href="GetScoreAction.action"  target="right">成绩查询</a> -->
 					
-					<a href="${pageContext.request.contextPath}/jsp/course/scoreQueryList.jsp" target="right">成绩查询</a>
+					<a href="${pageContext.request.contextPath}/getScoreN.do" target="right">成绩查询</a>
 				   
 				</li>
 				<!-- <li> <a href="${pageContext.request.contextPath}/uploadScoreFile.do"  target="right">成绩查询1</a></li>-->
